@@ -273,3 +273,47 @@ fourni par l'utilisateur.
 - [ ] Compléter les auteurs (`[Prénom]`) et le nom du bucket S3 dans le README.
 - [ ] Implémenter le pipeline (nettoyage + agrégations) et les captures `evidence/`.
 - [ ] Ajouter les manifestes `k8s/` si un job Spark est utilisé.
+
+## 2026-11-19 22:52 — DeepSeek V4.1 Flash Free (OpenCode)
+
+**Objectif de la session :** aligner la documentation sur le S3 réel et outiller les coéquipiers.
+**Demande de l'utilisateur (résumé) :** le fichier est sur
+`s3://user-f-braud-ece/raw/bodacc_idf_2022_2025.json` ; adapter les README,
+indiquer le bucket, ajouter dans `README.md` la procédure pour que Bretonne et
+Vautrin aient le même S3, et dire si un S3 partagé est possible.
+
+### Ce que j'ai fait
+1. `BigData_Braud_Bretonne_Vautrin/README.md` : bucket `user-f-braud-ece`,
+   chemins brut `raw/` et traité `processed/bodacc/`, commandes `aws s3`
+   complètes avec endpoint et vérification.
+2. `BigData_Braud_Bretonne_Vautrin/data/README.md` : ajout de l'emplacement S3.
+3. `README.md` (plan) : nouvelle section **12** — arborescence S3, réponse
+   « oui » au S3 partagé (bucket commun vs bucket par personne), procédure
+   pas-à-pas pour Bretonne et Vautrin (clone, clés, upload, vérif SHA-256,
+   capture).
+4. Vérifié la capture `evidence/01_bucket_raw.png` : elle montre
+   `s3://user-f-braud-ece/data/` (ancien emplacement) et une date relative
+   (« Aujourd'hui à 22:41 »). **Non commitée** en l'état.
+
+### Fichiers créés / modifiés
+| Fichier | Action | Détail |
+|---|---|---|
+| `BigData.../README.md` | modifié | Chemins S3 réels + commandes |
+| `BigData.../data/README.md` | modifié | Emplacement S3 |
+| `README.md` (convData) | modifié | Section 12 : S3 partagé + procédure |
+
+### Décisions et justifications
+- Bucket de référence unique (`user-f-braud-ece`) pour la lisibilité du rendu.
+- Le préfixe brut est `raw/` (le fichier est à la racine de `raw/`), pas
+  `raw/bodacc/` : la doc reflète l'état réel.
+- Endpoint laissé en variable : il dépend du compte Onyxia.
+
+### Problèmes rencontrés
+- Incohérence capture / chemin : la capture montre `data/`, l'utilisateur
+  annonce `raw/`. À revérifier et refaire la capture au bon endroit, avec une
+  date absolue visible.
+
+### À faire ensuite / points ouverts
+- [ ] Refaire `evidence/01_bucket_raw.png` sous `raw/`, avec date/heure absolue.
+- [ ] Décider bucket partagé (clés communes) ou bucket par personne.
+- [ ] Compléter les prénoms des auteurs.

@@ -132,3 +132,83 @@ Chaque capture doit montrer **namespace/ID Onyxia + date + heure**, et être num
 | 30 nov - 1er déc | Captures, README |
 | 2-3 déc | Rapport PDF, relecture |
 | **4 déc** | **Envoi (avec marge de sécurité : -1 pt par jour de retard)** |
+
+## 12. Stockage S3 — état et mise en place pour Bretonne et Vautrin
+
+**Bucket de référence : `user-f-braud-ece`** (bucket personnel Onyxia de Braud).
+
+```text
+s3://user-f-braud-ece/
+├── raw/
+│   └── bodacc_idf_2022_2025.json     # 4,49 Mo — 1 992 annonces (brut)
+└── processed/
+    └── bodacc/                       # à créer : clean/ et agg/
+```
+
+### Peut-on tous travailler sur le même S3 ?
+
+**Oui**, de deux façons :
+
+1. **Un bucket partagé** (le plus simple pour le rendu) : les trois membres
+   utilisent `user-f-braud-ece` avec **la même paire de clés S3**
+   (*Mon compte → Mes clés S3*).
+   - Avantages : un seul chemin à documenter, preuves cohérentes, pas de
+     duplication des 4,5 Mo.
+   - Limites : une seule identité (pas de traçabilité par personne), et si le
+     propriétaire du bucket quitte le groupe, l'accès est perdu.
+   - **Ne jamais committer les clés** ; les révoquer en fin de projet.
+2. **Un bucket par personne, même arborescence** : chacun crée `raw/` et
+   `processed/` dans son bucket personnel et y copie les données. Le README
+   documente `user-f-braud-ece` comme bucket de référence ; chaque membre peut
+   rejouer le pipeline chez lui.
+   - Avantages : accès indépendant, traçabilité.
+   - Limite : les chemins S3 diffèrent d'une personne à l'autre (le rapport doit
+     préciser lequel a servi aux captures).
+
+> Pour la correction, le plus lisible reste **un bucket de référence unique**
+> (option 1), avec les captures faites dessus.
+
+### Procédure identique pour Bretonne et Vautrin
+
+1. **Récupérer le dépôt et les données** :
+   ```bash
+   git clone git@github.com:frankigoes6/BigData_Braud_Bretonne_Vautrin.git
+   cd BigData_Braud_Bretonne_Vautrin
+   ```
+2. **Récupérer les identifiants S3** : *Mon compte → Mes clés S3* (access key +
+   secret key) et l'endpoint affiché à côté. Configurer le client :
+   ```bash
+   aws configure
+   # Access Key / Secret Key / region us-east-1 / format json
+   export S3_ENDPOINT="<endpoint indiqué dans Mon compte>"   # ex. https://minio.lab.sspcloud.fr
+   ```
+3. **Envoyer les données** :
+
+   *Option 1 — bucket partagé (clés de Braud) :*
+   ```bash
+   aws s3 cp data/bodacc_idf_2022_2025.json \
+     "s3://user-f-braud-ece/raw/" --endpoint-url "$S3_ENDPOINT"
+   ```
+
+   *Option 2 — bucket personnel :*
+   ```bash
+   BUCKET="<son-bucket>"
+   aws s3 mb "s3://$BUCKET" --endpoint-url "$S3_ENDPOINT"
+   aws s3 cp data/bodacc_idf_2022_2025.json \
+     "s3://$BUCKET/raw/" --endpoint-url "$S3_ENDPOINT"
+   ```
+
+4. **Vérifier l'intégrité** :
+   ```bash
+   aws s3 ls "s3://user-f-braud-ece/raw/" --endpoint-url "$S3_ENDPOINT"
+   # attendu : bodacc_idf_2022_2025.json  4492395 octets
+   ```
+   SHA-256 attendu :
+   `5266b50adfec0161ae8ae2b777674e15ac5b3f980086044d6ea380ac15987a10`.
+
+5. **Faire sa propre capture** `evidence/0X_bucket_raw_<nom>.png` (bucket,
+   préfixe, fichier, ID et date/heure visibles) si le bucket est personnel.
+
+> ⚠️ Les clés S3 ne doivent **jamais** apparaître dans le dépôt, le README ou
+> une capture d'écran.
+
