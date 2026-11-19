@@ -170,3 +170,64 @@ action dedans**, et ajouter cette règle aux consignes destinées aux IA.
 - [ ] Toute IA : lire la règle 0 avant d'agir sur `BigData_Braud_Bretonne_Vautrin`.
 - [ ] Demander à l'utilisateur comment il veut procéder pour les contributions
       au dépôt du projet (ex. l'IA prépare un patch dans `convData`, l'humain applique).
+
+## 2026-11-19 21:57 — DeepSeek V4.1 Flash Free (OpenCode)
+
+**Objectif de la session :** produire le jeu de données brutes BODACC (4,5 Mo max).
+**Demande de l'utilisateur (résumé) :** fichier de données d'environ 4,5 Mo
+(3 Mo accepté) depuis l'API BODACC de data.gouv.fr, filtré sur les départements
+d'Île-de-France, `publicationavis = A`, `familleavis ∈ {collective, vente,
+conciliation}`, période **2022 → 2025**.
+
+### Ce que j'ai fait
+1. Exploré l'API Opendatasoft `annonces-commerciales` : champs, valeurs réelles
+   (`publicationavis` = A/B/C, `familleavis` = collective/vente/conciliation/…,
+   `region_code = 11` pour l'IDF).
+2. Compté l'univers filtré : **171 755 annonces** sur 2022-2025 (~360 Mo), donc
+   impossible à livrer tel quel dans la limite de 5 Mo.
+3. Écrit `src/fetch_bodacc.py` (stdlib uniquement, sans dépendance) : télécharge
+   les annonces mois par mois (`ORDER BY dateparution, id`), en conserve 1/20,
+   puis sélectionne régulièrement N enregistrements pour viser ≤ 4,5 Mo.
+4. Exécuté le script : 171 755 annonces parcourues en 160 s, **1 992 retenues**.
+5. Validé le fichier : 100 % `publicationavis = A`, 100 % `region_code = 11`,
+   dates 2022-01-02 → 2025-12-31, 8 départements IDF, JSON valide.
+6. Rédigé `data/README.md` (source, licence, filtres, méthode, limites) et
+   complété le manifeste avec le SHA-256.
+
+### Fichiers créés / modifiés
+| Fichier | Action | Détail |
+|---|---|---|
+| `src/fetch_bodacc.py` | créé | Téléchargement + échantillonnage reproductible |
+| `data/bodacc_idf_2022_2025.json` | créé | 1 992 annonces, 4,49 Mo |
+| `data/bodacc_idf_2022_2025.manifest.json` | créé | Métadonnées + SHA-256 |
+| `data/README.md` | créé | Documentation du dataset |
+
+### Résultats / preuves
+- Taille : **4 492 395 octets** (4,49 Mo) — dans la fourchette [3 ; 4,5] Mo.
+- SHA-256 : `5266b50adfec0161ae8ae2b777674e15ac5b3f980086044d6ea380ac15987a10`.
+- Répartition : 2022 : 411, 2023 : 443, 2024 : 531, 2025 : 607.
+- Familles : collective 1 549, vente 442, conciliation 1.
+
+### Décisions et justifications
+- **Échantillonnage systématique** (pas régulier dans l'ordre chronologique)
+  plutôt qu'un simple « premiers N » : conserve la répartition annuelle et
+  évite de ne couvrir que début 2022.
+- Téléchargement mois par mois : contourne la limite `offset + limit ≤ 10 000`
+  de l'API, et permet de traiter ~3 500 lignes/mois.
+- Tous les champs conservés (aucune perte d'information par enregistrement).
+- Écriture dans `convData` uniquement, **rien touché dans le dépôt du projet**
+  (règle 0).
+
+### Problèmes rencontrés
+- L'API renvoie du gzip par défaut → `curl --compressed` / décompression
+  explicite dans le script.
+- `offset + limit ≤ 10 000` sur l'API → pagination par mois.
+- 1 seule conciliation dans l'échantillon : la famille ne compte que **214
+  annonces** sur 4 ans (0,12 %). Documenté comme limite ; un échantillonnage
+  stratifié est possible si l'analyse porte sur cette famille.
+
+### À faire ensuite / points ouverts
+- [ ] Valider avec l'utilisateur : échantillon proportionnel (actuel) ou
+      conciliation exhaustive (214 annonces) + sur-échantillonnage ?
+- [ ] Déposer le fichier sur S3 Onyxia (`raw/bodacc/`) — nécessite l'accès.
+- [ ] Étape suivante du plan : exploration qualité (doublons, dates, JSON imbriqué).

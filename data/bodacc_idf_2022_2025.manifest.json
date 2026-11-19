@@ -1,0 +1,25 @@
+{
+  "fichier": "bodacc_idf_2022_2025.json",
+  "taille_octets": 4492395,
+  "taille_mo": 4.49,
+  "nombre_annonces": 1992,
+  "source": "BODACC - Annonces commerciales (DILA, data.gouv.fr)",
+  "api": "https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/exports/json",
+  "licence": "Licence Ouverte / Open Licence Etalab 2.0",
+  "filtres": {
+    "periode": "2022-01-01 -> 2025-12-31",
+    "publicationavis": "A",
+    "familleavis": [
+      "collective",
+      "vente",
+      "conciliation"
+    ],
+    "region_code": 11,
+    "region": "Île-de-France"
+  },
+  "univers_disponible": 171755,
+  "methode_echantillonnage": "1 enregistrement conservé sur 20 dans l'ordre (dateparution, id), puis sélection régulière de 1992 enregistrements répartis uniformément sur la période.",
+  "script": "src/fetch_bodacc.py",
+  "genere_le": "2026-11-19T21:57:15+0100",
+  "sha256": "5266b50adfec0161ae8ae2b777674e15ac5b3f980086044d6ea380ac15987a10"
+}
