@@ -231,3 +231,45 @@ conciliation}`, période **2022 → 2025**.
       conciliation exhaustive (214 annonces) + sur-échantillonnage ?
 - [ ] Déposer le fichier sur S3 Onyxia (`raw/bodacc/`) — nécessite l'accès.
 - [ ] Étape suivante du plan : exploration qualité (doublons, dates, JSON imbriqué).
+
+## 2026-11-19 22:32 — DeepSeek V4.1 Flash Free (OpenCode)
+
+**Objectif de la session :** mettre en place la structure du dépôt de rendu.
+**Demande de l'utilisateur (résumé) :** créer dans `BigData_Braud_Bretonne_Vautrin`
+la structure exigée par la consigne (`README.md`, `evidence/`, `src/`, `k8s/`),
+y importer `data/`, simplifier `data/README.md`, puis pousser avec un message
+fourni par l'utilisateur.
+
+### Ce que j'ai fait
+1. Créé `evidence/`, `src/`, `k8s/`, `data/` (+ `.gitkeep` dans les dossiers vides).
+2. Rédigé `README.md` en suivant l'ordre imposé par la consigne : auteurs,
+   prérequis, dataset (nom, URL, licence, date, taille), problématique (3
+   phrases), chemins S3, reproduction, structure.
+3. Copié `data/bodacc_idf_2022_2025.json` (SHA-256 vérifié), son manifeste et
+   `src/fetch_bodacc.py`.
+4. Rédigé une version courte de `data/README.md` (filtres, échantillonnage,
+   champs, régénération).
+5. **Avec autorisation explicite de l'utilisateur**, commité et poussé sur
+   `BigData_Braud_Bretonne_Vautrin` : `ede8e69` (7 fichiers).
+
+### Fichiers créés / modifiés
+| Fichier | Action | Détail |
+|---|---|---|
+| `README.md` | réécrit | Conforme consigne, placeholders `[Prénom]` / `<bucket>` |
+| `data/README.md` | créé | Version simplifiée |
+| `data/*.json` | copiés | 4,49 Mo + manifeste |
+| `src/fetch_bodacc.py` | copié | Script de génération |
+| `evidence/.gitkeep`, `k8s/.gitkeep` | créés | Dossiers vides suivis |
+
+### Résultats / preuves
+- Commit `ede8e69` poussé sur `main` (9797f5b..ede8e69).
+- SHA-256 du fichier copié identique : `5266b50a…5987a10`.
+
+### Problèmes rencontrés
+- Le fichier de 4,5 Mo avait été évincé localement par iCloud Drive
+  (placeholder `.icloud`) → `brctl download` pour le rematérialiser avant `cp`.
+
+### À faire ensuite / points ouverts
+- [ ] Compléter les auteurs (`[Prénom]`) et le nom du bucket S3 dans le README.
+- [ ] Implémenter le pipeline (nettoyage + agrégations) et les captures `evidence/`.
+- [ ] Ajouter les manifestes `k8s/` si un job Spark est utilisé.
