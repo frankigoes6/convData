@@ -37,6 +37,8 @@
 1. **Ajouter à la fin, ne jamais réécrire le passé.** On ne supprime ni ne modifie
    une entrée existante. Si une décision précédente change, on ajoute une nouvelle
    entrée qui l'explique et on la référence (date + auteur).
+   *Seule exception : condensation explicite demandée par l'utilisateur, qui
+   remplace alors l'historique par un résumé daté.*
 2. **Une entrée par session de travail significative**, avec la date et l'heure.
 3. **Être factuel et vérifiable.** Donner les chemins de fichiers, les commandes
    exactes, les résultats obtenus (chiffres, codes de sortie, extraits).
@@ -88,258 +90,42 @@
 
 ---
 
-## 3. Journal
+## 3. État du projet (résumé consolidé)
 
-## 2026-11-19 21:43 — DeepSeek V4.1 Flash Free (OpenCode)
+> Historique détaillé **condensé le 2026-11-19** à la demande de l'utilisateur.
+> Les entrées de session précédentes ont été fusionnées ci-dessous.
 
-**Objectif de la session :** mettre en place l'espace de travail et créer ce journal.
-**Demande de l'utilisateur (résumé) :** cloner les dépôts `convData` et
-`BigData_Braud_Bretonne_Vautrin` dans des dossiers séparés, puis créer dans
-`convData` un README destiné aux IA où chacune décrit en détail son travail.
+### ✅ Fait
 
-### Ce que j'ai fait
-1. Cloné `https://github.com/frankigoes6/BigData_Brau_Bretonne_Vautrin` →
-   `BigData_Braud_Bretonne_Vautrin/` (dépôt quasi vide : un `README.md` de 32 o).
-   > Note : le nom exact est `BigData_Braud_Bretonne_Vautrin` (vérifié via l'API GitHub).
-2. Tenté de cloner `convData` → échec initial (HTTP 404, dépôt non visible),
-   puis réussi au second essai (le dépôt est devenu accessible entre-temps).
-3. Lu `../Consigne.md` et `README.md` pour le contexte.
-4. Créé ce fichier `AI_LOG.md` (sans toucher au `README.md` existant, qui contient
-   le plan de projet).
-
-### Fichiers créés / modifiés
-| Fichier | Action | Détail |
+| # | Élément | Détail |
 |---|---|---|
-| `AI_LOG.md` | créé | Journal partagé des IA (ce fichier) |
-| `README.md` | inchangé | Plan de projet existant |
+| 1 | Dépôts | `convData` (espace IA) et `BigData_Braud_Bretonne_Vautrin` (rendu) clonés ; remote SSH configuré |
+| 2 | Journal IA | `AI_LOG.md` créé + **règle 0** : aucune action dans le dépôt du projet sans permission |
+| 3 | Dataset | BODACC IDF 2022-2025 : **171 755 annonces** filtrées → échantillon **1 992 annonces / 4,49 Mo** |
+| 4 | Reproductibilité | `src/fetch_bodacc.py` (téléchargement + échantillonnage, stdlib, ~3 min) |
+| 5 | Structure du rendu | `README.md`, `data/`, `evidence/`, `src/`, `k8s/` conformes à la consigne |
+| 6 | S3 | brut déposé sur `s3://user-f-braud-ece/raw/` + capture `evidence/01_bucket_raw.png` |
+| 7 | Doc S3 | chemins réels dans le README + procédure de réplication pour Bretonne et Vautrin (section 12) |
+| 8 | Auteurs | BRAUD Frank, BRETONNE Mathis, VAUTRIN Denis renseignés |
 
-### Commandes exécutées
-```bash
-git clone https://github.com/frankigoes6/BigData_Braud_Bretonne_Vautrin.git BigData_Braud_Bretonne_Vautrin
-git clone https://github.com/frankigoes6/convData.git convData
-curl -s https://api.github.com/users/frankigoes6/repos?per_page=100
-```
+### ⏳ Reste à faire — 6 étapes de taille comparable
 
-### Résultats / preuves
-- `convData/` : 2 commits (`8a1e6b8 plan`, `1780852 Initial commit`).
-- `BigData_Braud_Bretonne_Vautrin/` : 1 fichier (`README.md`, 32 o).
+| # | Étape | Contenu | Livrable | Durée |
+|---|---|---|---|---|
+| 1 | **Qualité** | Compter lignes/colonnes, doublons, dates invalides, NAF/SIREN manquants, champs JSON imbriqués, libellés tribunaux incohérents | Tableau de chiffres pour le rapport | ~1 j |
+| 2 | **Nettoyage** | Aplatir le JSON, typer, dédoublonner, normaliser dates et codes, rattacher dept→région et NAF→secteur, normaliser les types de procédure | `processed/bodacc/clean/` (Parquet) | ~1,5 j |
+| 3 | **Agrégations** | Défaillances par secteur × région × mois, classements, indice de saisonnalité, part de liquidations | `processed/bodacc/agg/` (Parquet) | ~1 j |
+| 4 | **Vérification + mesures** | Recalculer un résultat autrement (Python pur / INSEE) et expliquer l'écart ; mesurer CSV vs Parquet et Spark vs DuckDB | Capture `06_verification.png` + tableau de mesures | ~1 j |
+| 5 | **Preuves + README** | Captures `02_ingestion`, `03_nettoyage`, `04_agregation`, `05_bucket_processed` (ID + date/heure) ; README final | `evidence/` complet + README | ~1 j |
+| 6 | **Rapport + envoi** | Rapport PDF 4 pages (workflow, choix, qualité, résultats, limites, 100× plus gros), relecture croisée, mail | PDF + lien Git | ~1,5 j |
 
-### Décisions et justifications
-- Fichier nommé `AI_LOG.md` plutôt que `README_AI.md` : évite la confusion avec
-  le vrai `README.md` du rendu, et reste visible à la racine.
-- Journal en français : langue de travail de l'utilisateur.
-- Ajout d'une section « Contexte du projet » pour qu'une nouvelle IA soit
-  opérationnelle sans relire toute l'historique.
+### 📌 Prochaine action
 
-### Problèmes rencontrés
-- `convData` a d'abord renvoyé 404 (dépôt privé ou pas encore publié). Résolu
-  en réessayant : le dépôt répond désormais 200 et se clone normalement.
+Commencer l'**étape 1 (qualité)** sur `data/bodacc_idf_2022_2025.json` :
+chiffrer chaque problème de qualité avant tout nettoyage.
 
-### À faire ensuite / points ouverts
-- [ ] Décider du dépôt final `bigdata_project` et de la répartition binôme.
-- [ ] Figer la question de recherche et le périmètre (cf. `README.md` §0).
-- [ ] Vérifier l'accès S3 Onyxia et créer le bucket.
+### ⚠️ Points à trancher
 
-## 2026-11-19 21:47 — DeepSeek V4.1 Flash Free (OpenCode)
-
-**Objectif de la session :** protéger le dépôt du projet et mettre à jour les consignes IA.
-**Demande de l'utilisateur (résumé) :** `BigData_Braud_Bretonne_Vautrin` est le
-projet propre (évalué) : **demander la permission avant tout push ou autre
-action dedans**, et ajouter cette règle aux consignes destinées aux IA.
-
-### Ce que j'ai fait
-1. Ajouté la **règle 0** en tête des règles impératives : interdiction de
-   commit/push/modification/suppression/branche/config Git dans le dépôt du
-   projet sans demande explicite et spécifique ; en cas de doute, demander.
-2. Mis à jour la section « Contexte du projet » : `BigData_Braud_Bretonne_Vautrin`
-   est identifié comme le dépôt de rendu (zone protégée) et `convData` comme le
-   seul espace d'écriture libre des IA.
-
-### Fichiers créés / modifiés
-| Fichier | Action | Détail |
-|---|---|---|
-| `AI_LOG.md` | modifié | Règle 0 ajoutée + contexte mis à jour |
-
-### Décisions et justifications
-- La permission est **ponctuelle** : une autorisation pour un push ne vaut pas
-  pour les suivants (le dépôt est noté, donc risque élevé).
-- `convData` reste le bac à sable : les IA y préparent les changements et ne
-  les appliquent au projet qu'après accord de l'utilisateur.
-
-### À faire ensuite / points ouverts
-- [ ] Toute IA : lire la règle 0 avant d'agir sur `BigData_Braud_Bretonne_Vautrin`.
-- [ ] Demander à l'utilisateur comment il veut procéder pour les contributions
-      au dépôt du projet (ex. l'IA prépare un patch dans `convData`, l'humain applique).
-
-## 2026-11-19 21:57 — DeepSeek V4.1 Flash Free (OpenCode)
-
-**Objectif de la session :** produire le jeu de données brutes BODACC (4,5 Mo max).
-**Demande de l'utilisateur (résumé) :** fichier de données d'environ 4,5 Mo
-(3 Mo accepté) depuis l'API BODACC de data.gouv.fr, filtré sur les départements
-d'Île-de-France, `publicationavis = A`, `familleavis ∈ {collective, vente,
-conciliation}`, période **2022 → 2025**.
-
-### Ce que j'ai fait
-1. Exploré l'API Opendatasoft `annonces-commerciales` : champs, valeurs réelles
-   (`publicationavis` = A/B/C, `familleavis` = collective/vente/conciliation/…,
-   `region_code = 11` pour l'IDF).
-2. Compté l'univers filtré : **171 755 annonces** sur 2022-2025 (~360 Mo), donc
-   impossible à livrer tel quel dans la limite de 5 Mo.
-3. Écrit `src/fetch_bodacc.py` (stdlib uniquement, sans dépendance) : télécharge
-   les annonces mois par mois (`ORDER BY dateparution, id`), en conserve 1/20,
-   puis sélectionne régulièrement N enregistrements pour viser ≤ 4,5 Mo.
-4. Exécuté le script : 171 755 annonces parcourues en 160 s, **1 992 retenues**.
-5. Validé le fichier : 100 % `publicationavis = A`, 100 % `region_code = 11`,
-   dates 2022-01-02 → 2025-12-31, 8 départements IDF, JSON valide.
-6. Rédigé `data/README.md` (source, licence, filtres, méthode, limites) et
-   complété le manifeste avec le SHA-256.
-
-### Fichiers créés / modifiés
-| Fichier | Action | Détail |
-|---|---|---|
-| `src/fetch_bodacc.py` | créé | Téléchargement + échantillonnage reproductible |
-| `data/bodacc_idf_2022_2025.json` | créé | 1 992 annonces, 4,49 Mo |
-| `data/bodacc_idf_2022_2025.manifest.json` | créé | Métadonnées + SHA-256 |
-| `data/README.md` | créé | Documentation du dataset |
-
-### Résultats / preuves
-- Taille : **4 492 395 octets** (4,49 Mo) — dans la fourchette [3 ; 4,5] Mo.
-- SHA-256 : `5266b50adfec0161ae8ae2b777674e15ac5b3f980086044d6ea380ac15987a10`.
-- Répartition : 2022 : 411, 2023 : 443, 2024 : 531, 2025 : 607.
-- Familles : collective 1 549, vente 442, conciliation 1.
-
-### Décisions et justifications
-- **Échantillonnage systématique** (pas régulier dans l'ordre chronologique)
-  plutôt qu'un simple « premiers N » : conserve la répartition annuelle et
-  évite de ne couvrir que début 2022.
-- Téléchargement mois par mois : contourne la limite `offset + limit ≤ 10 000`
-  de l'API, et permet de traiter ~3 500 lignes/mois.
-- Tous les champs conservés (aucune perte d'information par enregistrement).
-- Écriture dans `convData` uniquement, **rien touché dans le dépôt du projet**
-  (règle 0).
-
-### Problèmes rencontrés
-- L'API renvoie du gzip par défaut → `curl --compressed` / décompression
-  explicite dans le script.
-- `offset + limit ≤ 10 000` sur l'API → pagination par mois.
-- 1 seule conciliation dans l'échantillon : la famille ne compte que **214
-  annonces** sur 4 ans (0,12 %). Documenté comme limite ; un échantillonnage
-  stratifié est possible si l'analyse porte sur cette famille.
-
-### À faire ensuite / points ouverts
-- [ ] Valider avec l'utilisateur : échantillon proportionnel (actuel) ou
-      conciliation exhaustive (214 annonces) + sur-échantillonnage ?
-- [ ] Déposer le fichier sur S3 Onyxia (`raw/bodacc/`) — nécessite l'accès.
-- [ ] Étape suivante du plan : exploration qualité (doublons, dates, JSON imbriqué).
-
-## 2026-11-19 22:32 — DeepSeek V4.1 Flash Free (OpenCode)
-
-**Objectif de la session :** mettre en place la structure du dépôt de rendu.
-**Demande de l'utilisateur (résumé) :** créer dans `BigData_Braud_Bretonne_Vautrin`
-la structure exigée par la consigne (`README.md`, `evidence/`, `src/`, `k8s/`),
-y importer `data/`, simplifier `data/README.md`, puis pousser avec un message
-fourni par l'utilisateur.
-
-### Ce que j'ai fait
-1. Créé `evidence/`, `src/`, `k8s/`, `data/` (+ `.gitkeep` dans les dossiers vides).
-2. Rédigé `README.md` en suivant l'ordre imposé par la consigne : auteurs,
-   prérequis, dataset (nom, URL, licence, date, taille), problématique (3
-   phrases), chemins S3, reproduction, structure.
-3. Copié `data/bodacc_idf_2022_2025.json` (SHA-256 vérifié), son manifeste et
-   `src/fetch_bodacc.py`.
-4. Rédigé une version courte de `data/README.md` (filtres, échantillonnage,
-   champs, régénération).
-5. **Avec autorisation explicite de l'utilisateur**, commité et poussé sur
-   `BigData_Braud_Bretonne_Vautrin` : `ede8e69` (7 fichiers).
-
-### Fichiers créés / modifiés
-| Fichier | Action | Détail |
-|---|---|---|
-| `README.md` | réécrit | Conforme consigne, placeholders `[Prénom]` / `<bucket>` |
-| `data/README.md` | créé | Version simplifiée |
-| `data/*.json` | copiés | 4,49 Mo + manifeste |
-| `src/fetch_bodacc.py` | copié | Script de génération |
-| `evidence/.gitkeep`, `k8s/.gitkeep` | créés | Dossiers vides suivis |
-
-### Résultats / preuves
-- Commit `ede8e69` poussé sur `main` (9797f5b..ede8e69).
-- SHA-256 du fichier copié identique : `5266b50a…5987a10`.
-
-### Problèmes rencontrés
-- Le fichier de 4,5 Mo avait été évincé localement par iCloud Drive
-  (placeholder `.icloud`) → `brctl download` pour le rematérialiser avant `cp`.
-
-### À faire ensuite / points ouverts
-- [ ] Compléter les auteurs (`[Prénom]`) et le nom du bucket S3 dans le README.
-- [ ] Implémenter le pipeline (nettoyage + agrégations) et les captures `evidence/`.
-- [ ] Ajouter les manifestes `k8s/` si un job Spark est utilisé.
-
-## 2026-11-19 22:52 — DeepSeek V4.1 Flash Free (OpenCode)
-
-**Objectif de la session :** aligner la documentation sur le S3 réel et outiller les coéquipiers.
-**Demande de l'utilisateur (résumé) :** le fichier est sur
-`s3://user-f-braud-ece/raw/bodacc_idf_2022_2025.json` ; adapter les README,
-indiquer le bucket, ajouter dans `README.md` la procédure pour que Bretonne et
-Vautrin aient le même S3, et dire si un S3 partagé est possible.
-
-### Ce que j'ai fait
-1. `BigData_Braud_Bretonne_Vautrin/README.md` : bucket `user-f-braud-ece`,
-   chemins brut `raw/` et traité `processed/bodacc/`, commandes `aws s3`
-   complètes avec endpoint et vérification.
-2. `BigData_Braud_Bretonne_Vautrin/data/README.md` : ajout de l'emplacement S3.
-3. `README.md` (plan) : nouvelle section **12** — arborescence S3, réponse
-   « oui » au S3 partagé (bucket commun vs bucket par personne), procédure
-   pas-à-pas pour Bretonne et Vautrin (clone, clés, upload, vérif SHA-256,
-   capture).
-4. Vérifié la capture `evidence/01_bucket_raw.png` : elle montre
-   `s3://user-f-braud-ece/data/` (ancien emplacement) et une date relative
-   (« Aujourd'hui à 22:41 »). **Non commitée** en l'état.
-
-### Fichiers créés / modifiés
-| Fichier | Action | Détail |
-|---|---|---|
-| `BigData.../README.md` | modifié | Chemins S3 réels + commandes |
-| `BigData.../data/README.md` | modifié | Emplacement S3 |
-| `README.md` (convData) | modifié | Section 12 : S3 partagé + procédure |
-
-### Décisions et justifications
-- Bucket de référence unique (`user-f-braud-ece`) pour la lisibilité du rendu.
-- Le préfixe brut est `raw/` (le fichier est à la racine de `raw/`), pas
-  `raw/bodacc/` : la doc reflète l'état réel.
-- Endpoint laissé en variable : il dépend du compte Onyxia.
-
-### Problèmes rencontrés
-- Incohérence capture / chemin : la capture montre `data/`, l'utilisateur
-  annonce `raw/`. À revérifier et refaire la capture au bon endroit, avec une
-  date absolue visible.
-
-### À faire ensuite / points ouverts
-- [ ] Refaire `evidence/01_bucket_raw.png` sous `raw/`, avec date/heure absolue.
-- [ ] Décider bucket partagé (clés communes) ou bucket par personne.
-- [ ] Compléter les prénoms des auteurs.
-
-## 2026-11-19 23:01 — DeepSeek V4.1 Flash Free (OpenCode)
-
-**Objectif de la session :** valider et versionner la preuve S3.
-**Demande de l'utilisateur (résumé) :** le fichier a été déplacé dans `raw/`.
-
-### Ce que j'ai fait
-1. Relu `evidence/01_bucket_raw.png` : il montre désormais
-   `s3://user-f-braud-ece/raw/` et le fichier `bodacc_idf_2022_2025.json`
-   (4,28 MB dans l'UI, soit 4 492 395 octets). Cohérent avec le README.
-2. Ajouté un `.gitignore` (`.DS_Store`, `*.icloud`, `.env`, `.aws/`).
-3. Commité et poussé la preuve : `4fc2d54` sur `BigData_Braud_Bretonne_Vautrin`.
-
-### Fichiers créés / modifiés
-| Fichier | Action | Détail |
-|---|---|---|
-| `BigData.../.gitignore` | créé | Exclusions macOS / secrets |
-| `BigData.../evidence/01_bucket_raw.png` | ajouté | Capture bucket brut `raw/` |
-
-### Points ouverts
-- [ ] La capture affiche une date **relative** (« Aujourd'hui à 22:47 »).
-      La consigne exige une date et une heure : ajouter une date absolue
-      (horloge macOS dans le cadre, ou `date` dans un terminal visible) pour
-      sécuriser la note.
-- [ ] Le bucket est personnel : décider du mode de partage avec Bretonne et
-      Vautrin (section 12 de `README.md`).
+- [ ] **Partage S3** : bucket commun (clés partagées) ou bucket par personne ? (section 12)
+- [ ] **Captures** : ajouter une date **absolue** visible (la capture 01 affiche « Aujourd'hui à 22:47 »)
+- [ ] **Secteur NAF** : le fichier ne contient pas le code NAF → prévoir une jointure SIRENE via le SIREN, ou requalifier la problématique
