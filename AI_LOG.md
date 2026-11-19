@@ -15,14 +15,25 @@
   vérification indépendante, rendu le **vendredi 4 décembre 2026**.
 - **Plan de travail détaillé** : [`README.md`](./README.md) — cadrage, ingestion,
   qualité, nettoyage, agrégations, mesures, captures, rapport.
-- **Dépôt principal du rendu** : à créer sous le nom `bigdata_project`
-  (public, ≥ 10 commits sur plusieurs jours, 2 contributeurs).
-  `convData` est l'espace de travail / de discussion entre IA.
+- **Dépôt du projet (rendu)** : `BigData_Braud_Bretonne_Vautrin`
+  (public, ≥ 10 commits sur plusieurs jours, 2 contributeurs). **Zone protégée :
+  voir règle 0.**
+- **`convData`** : espace de travail / de discussion entre IA (ce journal).
+  C'est le seul dépôt où les IA peuvent écrire librement.
 
 ---
 
 ## 1. Règles pour les agents IA (impératives)
 
+0. **🔒 Ne JAMAIS toucher au dépôt du projet sans permission.**
+   `BigData_Braud_Bretonne_Vautrin` (et tout futur dépôt de rendu) est le
+   **projet propre** : il est évalué. Une IA ne doit **ni commit, ni push, ni
+   modifier, ni supprimer, ni créer de branche, ni changer la config Git** dans
+   ce dépôt **sans une demande explicite de l'utilisateur pour cette action
+   précise**. En cas de doute : **demander avant d'agir**. La permission donnée
+   une fois ne vaut que pour l'action demandée, pas pour les suivantes.
+   Le travail d'exploration se fait dans `convData` ; on ne propose des
+   changements au dépôt du projet qu'après accord.
 1. **Ajouter à la fin, ne jamais réécrire le passé.** On ne supprime ni ne modifie
    une entrée existante. Si une décision précédente change, on ajoute une nouvelle
    entrée qui l'explique et on la référence (date + auteur).
@@ -128,3 +139,34 @@ curl -s https://api.github.com/users/frankigoes6/repos?per_page=100
 - [ ] Décider du dépôt final `bigdata_project` et de la répartition binôme.
 - [ ] Figer la question de recherche et le périmètre (cf. `README.md` §0).
 - [ ] Vérifier l'accès S3 Onyxia et créer le bucket.
+
+## 2026-11-19 21:47 — DeepSeek V4.1 Flash Free (OpenCode)
+
+**Objectif de la session :** protéger le dépôt du projet et mettre à jour les consignes IA.
+**Demande de l'utilisateur (résumé) :** `BigData_Braud_Bretonne_Vautrin` est le
+projet propre (évalué) : **demander la permission avant tout push ou autre
+action dedans**, et ajouter cette règle aux consignes destinées aux IA.
+
+### Ce que j'ai fait
+1. Ajouté la **règle 0** en tête des règles impératives : interdiction de
+   commit/push/modification/suppression/branche/config Git dans le dépôt du
+   projet sans demande explicite et spécifique ; en cas de doute, demander.
+2. Mis à jour la section « Contexte du projet » : `BigData_Braud_Bretonne_Vautrin`
+   est identifié comme le dépôt de rendu (zone protégée) et `convData` comme le
+   seul espace d'écriture libre des IA.
+
+### Fichiers créés / modifiés
+| Fichier | Action | Détail |
+|---|---|---|
+| `AI_LOG.md` | modifié | Règle 0 ajoutée + contexte mis à jour |
+
+### Décisions et justifications
+- La permission est **ponctuelle** : une autorisation pour un push ne vaut pas
+  pour les suivants (le dépôt est noté, donc risque élevé).
+- `convData` reste le bac à sable : les IA y préparent les changements et ne
+  les appliquent au projet qu'après accord de l'utilisateur.
+
+### À faire ensuite / points ouverts
+- [ ] Toute IA : lire la règle 0 avant d'agir sur `BigData_Braud_Bretonne_Vautrin`.
+- [ ] Demander à l'utilisateur comment il veut procéder pour les contributions
+      au dépôt du projet (ex. l'IA prépare un patch dans `convData`, l'humain applique).
