@@ -317,3 +317,29 @@ Vautrin aient le même S3, et dire si un S3 partagé est possible.
 - [ ] Refaire `evidence/01_bucket_raw.png` sous `raw/`, avec date/heure absolue.
 - [ ] Décider bucket partagé (clés communes) ou bucket par personne.
 - [ ] Compléter les prénoms des auteurs.
+
+## 2026-11-19 23:01 — DeepSeek V4.1 Flash Free (OpenCode)
+
+**Objectif de la session :** valider et versionner la preuve S3.
+**Demande de l'utilisateur (résumé) :** le fichier a été déplacé dans `raw/`.
+
+### Ce que j'ai fait
+1. Relu `evidence/01_bucket_raw.png` : il montre désormais
+   `s3://user-f-braud-ece/raw/` et le fichier `bodacc_idf_2022_2025.json`
+   (4,28 MB dans l'UI, soit 4 492 395 octets). Cohérent avec le README.
+2. Ajouté un `.gitignore` (`.DS_Store`, `*.icloud`, `.env`, `.aws/`).
+3. Commité et poussé la preuve : `4fc2d54` sur `BigData_Braud_Bretonne_Vautrin`.
+
+### Fichiers créés / modifiés
+| Fichier | Action | Détail |
+|---|---|---|
+| `BigData.../.gitignore` | créé | Exclusions macOS / secrets |
+| `BigData.../evidence/01_bucket_raw.png` | ajouté | Capture bucket brut `raw/` |
+
+### Points ouverts
+- [ ] La capture affiche une date **relative** (« Aujourd'hui à 22:47 »).
+      La consigne exige une date et une heure : ajouter une date absolue
+      (horloge macOS dans le cadre, ou `date` dans un terminal visible) pour
+      sécuriser la note.
+- [ ] Le bucket est personnel : décider du mode de partage avec Bretonne et
+      Vautrin (section 12 de `README.md`).
