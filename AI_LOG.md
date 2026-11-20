@@ -129,3 +129,56 @@ chiffrer chaque problème de qualité avant tout nettoyage.
 - [ ] **Partage S3** : bucket commun (clés partagées) ou bucket par personne ? (section 12)
 - [ ] **Captures** : ajouter une date **absolue** visible (la capture 01 affiche « Aujourd'hui à 22:47 »)
 - [ ] **Secteur NAF** : le fichier ne contient pas le code NAF → prévoir une jointure SIRENE via le SIREN, ou requalifier la problématique
+
+---
+
+## 2026-11-20 23:05–00:55 — DeepSeek V4.1 Flash (OpenCode, mode navigateur)
+
+**Objectif de la session :** exécuter le pipeline BODACC de bout en bout, sur S3 et sur le cluster, avec preuves.
+
+**Demande de l'utilisateur (résumé) :** « go » — autonomie complète dans le navigateur Onyxia, commits fréquents, captures pour le rapport.
+
+### Ce que j'ai fait
+1. Connexion pilotée dans l'onglet Onyxia existant (`onyxia.adm.adaltas.cloud`, compte `d-vautrinseing-ece`).
+2. Lecture du profil S3 (`s3.seaweedfs.adm.adaltas.cloud`, clés STS expirant le 21/11 11:02).
+3. Écriture du pipeline dans **`BigData_Braud_Bretonne_Vautrin`** (5 commits) : common, quality, build, enrich_naf, aggregate, verify, measure, upload_s3, requirements, README, evidence.
+4. Dépôt S3 : `raw/bodacc/` (4,49 Mo) et `processed/bodacc/{clean,naf,agg}/`.
+5. Exécution réelle dans le pod `jupyter-python-631654-0` (JupyterLab) via le kernel, sorties identiques au local.
+
+### Fichiers créés / modifiés
+| Fichier | Action | Détail |
+|---|---|---|
+| `src/common.py` | créé | parsing JSON-texte, normalisation procédures, NAF |
+| `src/quality.py` | créé | 1992 annonces, 70 SIREN absents, 0 date invalide, 1 doublon |
+| `src/build.py` | créé | 1991 lignes, 703 ouvertures |
+| `src/enrich_naf.py` | créé | 1903/1904 SIREN avec NAF (API recherche-entreprises) |
+| `src/aggregate.py` | créé | 75 Paris 234, G Commerce 143, indice oct. 1,417 |
+| `src/verify.py` | créé | 45 = 45 en 75/2023 |
+| `src/measure.py` | créé | CSV 0,76 Mo vs Parquet 0,13 Mo (5,9x), 39 ms vs 1,1 ms |
+| `src/upload_s3.py` | créé | dépôt S3, bucket = namespace déjà préfixé `user-` |
+| `evidence/0{2,3,4,5}_*.jpeg` | créés | bucket brut, traité, agg, exécution cluster |
+
+### Commandes exécutées (extrait)
+```bash
+python src/quality.py && python src/build.py && python src/enrich_naf.py
+python src/aggregate.py && python src/verify.py && python src/measure.py
+python src/upload_s3.py --processed
+```
+
+### Problèmes rencontrés
+- **Event Kubernetes** : `0/9 nodes are available: 3 Insufficient cpu, 6 untolerated taint(s)` → 2 services bloqués en Pending pendant ~45 min ; résolu en relançant avec 50m CPU / 200Mi.
+- **Suppression accidentelle** du service `vscode-pyspark-892194` (démarré le 14/10) : le 2ᵉ bouton icône d'une carte « Mes services » ouvre la suppression. PVC probablement conservé, service à recréer si besoin.
+- `printf`/`duckdb 2.0` : `con.sql(...).fetchone()` n'existe plus → `con.execute(...)`.
+- `git clone -q ... || (cd repo && git pull)` a masqué l'échec du clone → toujours vérifier `ls repo/src`.
+- **`git push` refusé (403)** : `VtnDenis` n'est pas collaborateur de `frankigoes6/BigData_Braud_Bretonne_Vautrin`. Les 5 commits sont locaux.
+- Accès SSH GitHub cassé (`Host key verification failed`) ; `gh` est authentifié en HTTPS.
+
+### Décisions et justifications
+- S3 et exécution dans le pod plutôt qu'en local seul : l'énoncé exige des preuves horodatées avec le namespace.
+- NAF joint par SIREN (le BODACC ne le publie pas) avec cache versionné : reproductible sans rejouer 1900 requêtes.
+
+### À faire ensuite
+- [ ] Frank ajoute Denis comme collaborateur, puis `git push`
+- [ ] Supprimer le service Pending `bodacc2` (819117) et arrêter `bodacc3`
+- [ ] Rapport PDF 4 pages + envoi du mail
+- [ ] Commits de Frank et Mathis (contribution visible des deux membres exigée)
