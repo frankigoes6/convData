@@ -182,3 +182,19 @@ python src/upload_s3.py --processed
 - [ ] Supprimer le service Pending `bodacc2` (819117) et arrêter `bodacc3`
 - [ ] Rapport PDF 4 pages + envoi du mail
 - [ ] Commits de Frank et Mathis (contribution visible des deux membres exigée)
+
+## 2026-11-21 00:05 — DeepSeek V4.1 Flash (OpenCode)
+
+**Suite de la session précédente.** Rédaction du rapport.
+
+- `docs/rapport.html` (source) + `docs/rapport.pdf` (**3 pages A4**), générés avec WeasyPrint
+  (`uv pip install weasyprint pypdf` dans `.venv`).
+- Sections : problématique/dataset, workflow SVG + choix mesurés, qualité, résultats,
+  limites, 100× plus gros, preuves référencées, initiatives.
+- Commit `e9050a8`.
+
+**Reste à faire**
+- [ ] `git push` (Frank doit ajouter VtnDenis comme collaborateur — 403 pour l'instant)
+- [ ] Envoi du mail : destinataire absent de `Ecosysteme_Big_Data_II_project.md`
+- [ ] Commits de Frank et Mathis (contribution visible des deux membres)
+- [ ] Supprimer `bodacc2` (Pending) et arrêter `bodacc3`
