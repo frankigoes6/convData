@@ -219,7 +219,7 @@ python src/upload_s3.py --processed
   contourner. Règle inscrite dans `AGENTS.md`.
 
 ### Chiffres corrigés
-- Le dépôt de rendu compte **7 commits** devant `4fc2d54` (et non 9, erreur d'un
+- Le dépôt de rendu compte **8 commits** devant `4fc2d54` (et non 9, erreur d'un
   message précédent) : `67d099c`, `6f6762c`, `583bad7`, `174b223`, `df88d64`,
   `670d303`, `e9050a8`, `455db16` en attente de push.
 

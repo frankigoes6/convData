@@ -57,4 +57,4 @@ automatisé du projet (pas de suite de tests, pas de CI).
 ## État au 2026-11-21
 
 Pipeline complet exécuté sur S3 et dans un pod Onyxia, preuves et rapport produits,
-7 commits locaux non poussés. Détail et reste à faire : `PIPELINE.md` §7-8.
+8 commits locaux non poussés. Détail et reste à faire : `PIPELINE.md` §7-8.

@@ -111,7 +111,7 @@ ne jamais les écrire dans le dépôt.
 
 ## 8. Ce qui reste ouvert
 
-- [ ] Permissions GitHub puis `git push origin main` (7 commits locaux).
+- [ ] Permissions GitHub puis `git push origin main` (8 commits locaux).
 - [ ] Contributions visibles de Frank et Mathis (exigées par l'énoncé).
 - [ ] Adresse de rendu inconnue : le destinataire du mail n'est pas dans l'énoncé.
 - [ ] Service `bodacc3` (631654) à arrêter ; `bodacc2` Pending à supprimer.
