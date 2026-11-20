@@ -20,6 +20,7 @@ collaborateur d'aucun des deux** : tout `git push` renvoie 403.
 |---|---|
 | `AI_LOG.md` | Journal inter-IA : **append-only**, une entrée datée par session, commit `docs(ai-log): <résumé>` |
 | `PIPELINE.md` | **Ce qui a été construit** : étapes, chiffres de référence, layout S3, pièges Onyxia |
+| `WORKFLOW.md` | **Comment ça a été fait** : procédure de navigation, sélecteurs, kernel WebSocket, échecs |
 | `README.md` | Plan de travail du projet (pas la doc de ce dépôt) |
 | `Ecosysteme_Big_Data_II_project.md` | Énoncé officiel (anglais) : c'est la source de vérité des attentes |
 | `data/`, `src/` | Copie de travail du dataset et du script de génération |
@@ -53,6 +54,22 @@ automatisé du projet (pas de suite de tests, pas de CI).
 - **Onyxia** : routes en `/s3/<bucket>/<préfixe>/`, pages qui mettent ~8-10 s à rendre,
   quota CPU saturable (`0/9 nodes available`), 2ᵉ icône d'une carte service = **supprimer**.
 - **DuckDB 2.0** : `con.sql(...).fetchone()` n'existe plus, utiliser `con.execute(...)`.
+
+## Discrétion IA dans le dépôt de rendu
+
+`BigData_Braud_Bretonne_Vautrin` doit passer pour un travail humain : **aucune trace
+d'outil IA**.
+
+- Auteur des commits : `Denis VAUTRINSEING <117896625+VtnDenis@users.noreply.github.com>`.
+- Messages courts, en français, sans préfixe `feat:` / `fix:` / `docs:`.
+- Pas de `AGENTS.md`, pas de journal, pas de mot « agent » : la doc IA vit dans `convData`.
+- Le détail technique retiré du README va dans `docs/PIPELINE.md` (contenu neutre).
+- `convData`, à l'inverse : tout documenter, sans rien garder pour soi.
+
+Une **empreinte SHA256** fournie par l'utilisateur n'est pas une clé d'accès : elle
+identifie un serveur, elle n'autorise rien. Celles de `github.com` publiées par GitHub
+sont `+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU` (ed25519) et
+`uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s` (rsa).
 
 ## État au 2026-11-21
 

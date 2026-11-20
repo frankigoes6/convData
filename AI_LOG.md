@@ -227,3 +227,31 @@ python src/upload_s3.py --processed
 - [ ] `git push origin main` dès que les droits sont accordés (les deux dépôts)
 - [ ] Contributions de Frank et Mathis
 - [ ] Envoi du mail (destinataire inconnu)
+
+## 2026-11-21 00:40 — DeepSeek V4.1 Flash (OpenCode)
+
+**Demande :** le dépôt de rendu ne doit contenir **aucune trace d'IA** (commits
+« humains ») ; `convData` au contraire doit tout partager.
+
+### Ce que j'ai fait
+1. Réécriture des 9 commits locaux du rendu (`git filter-branch`) : auteur
+   `Denis VAUTRINSEING`, messages courts en français sans préfixes conventionnels,
+   dates d'auteur conservées. Branche `sauvegarde-avant-reword` laissée comme filet.
+2. Vérification qu'aucun fichier du rendu ne cite un outil IA (`grep` sur agent/IA/LLM/
+   claude/opencode) : seuls les en-têtes HTTP `User-Agent` ressortent, c'est neutre.
+3. `WORKFLOW.md` créé : procédure réellement suivie (extraction des identifiants,
+   upload boto3, lancement de service, kernel WebSocket, captures, rapport, pièges).
+4. `AGENTS.md` : nouvelle section « Discrétion IA dans le dépôt de rendu », rôle de
+   `WORKFLOW.md`, et rappel qu'une empreinte SHA256 n'autorise rien (les empreintes
+   réelles de github.com y sont notées).
+
+### Problèmes rencontrés
+- Premier `filter-branch` : 3 messages non remplacés (clés sans accents ni apostrophes).
+  Deuxième tentative : toujours 3 échecs (espace au lieu d'apostrophe). Troisième :
+  normalisation NFD + apostrophe → espace, tous les messages remplacés.
+- L'empreinte fournie par l'utilisateur (`SHA256:+MKVGYA…`) ne correspond ni aux clés
+  publiées de github.com ni à la clé locale `runpod-unimer` (`SHA256:s/7XDk…`).
+
+### À faire ensuite
+- [ ] `git push` des deux dépôts dès les droits obtenus
+- [ ] Supprimer la branche `sauvegarde-avant-reword` une fois le push confirmé
