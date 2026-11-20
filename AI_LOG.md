@@ -198,3 +198,32 @@ python src/upload_s3.py --processed
 - [ ] Envoi du mail : destinataire absent de `Ecosysteme_Big_Data_II_project.md`
 - [ ] Commits de Frank et Mathis (contribution visible des deux membres)
 - [ ] Supprimer `bodacc2` (Pending) et arrêter `bodacc3`
+
+## 2026-11-21 00:20 — DeepSeek V4.1 Flash (OpenCode)
+
+**Objectif :** documenter le travail avant l'obtention des droits GitHub.
+
+### Ce que j'ai fait
+1. Création de `PIPELINE.md` : vue d'ensemble, environnement, 7 étapes avec leurs
+   sorties attendues, modèle de données de `clean.parquet`, layout S3, procédure
+   d'exécution dans le pod, pièges, reste à faire.
+2. Réécriture de `AGENTS.md` : règle 0 élargie aux **deux** dépôts (tous deux sur
+   `frankigoes6`, 403 pour `VtnDenis`), interdiction explicite de fork/PR sans demande,
+   raccourcis de commandes, pièges vérifiés, état au 21/11.
+3. `README.md` du rendu : ajout du lien vers `docs/rapport.pdf` et de sa commande de
+   régénération (commit `455db16`).
+
+### Incident à retenir
+- Un fork `VtnDenis/BigData_Braud_Bretonne_Vautrin` a été créé puis **supprimé** à la
+  demande de l'utilisateur. La bonne réponse à un 403 est de le signaler, pas de
+  contourner. Règle inscrite dans `AGENTS.md`.
+
+### Chiffres corrigés
+- Le dépôt de rendu compte **7 commits** devant `4fc2d54` (et non 9, erreur d'un
+  message précédent) : `67d099c`, `6f6762c`, `583bad7`, `174b223`, `df88d64`,
+  `670d303`, `e9050a8`, `455db16` en attente de push.
+
+### À faire ensuite
+- [ ] `git push origin main` dès que les droits sont accordés (les deux dépôts)
+- [ ] Contributions de Frank et Mathis
+- [ ] Envoi du mail (destinataire inconnu)
