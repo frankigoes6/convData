@@ -296,3 +296,24 @@ deploy key `bigdata-project` (`SHA256:TUAig…`) ajoutée avant.
 ### À vérifier plus tard
 - [ ] `git log --all --name-only | grep PIPELINE` doit rester vide côté rendu
 - [ ] Le rendu compte 8 commits au-dessus de `4fc2d54`
+
+## 2026-11-23 11:00 : DeepSeek V4.1 Flash (OpenCode)
+
+**Répartition avec Mathis.** Quatre morceaux lui sont confiés et ont été retirés du
+dépôt de rendu, y compris de l'historique (`filter-branch --tree-filter --prune-empty`,
+puis force push `ff3353b` vers `e36bc52`) :
+
+- `src/quality.py`, `src/verify.py`, `src/measure.py`
+- la table `_SECTIONS` et la fonction `naf_section()` de `src/common.py`
+
+Les versions de référence sont dans `pour-mathis/code/`, avec un `pour-mathis/README.md`
+qui donne les sorties attendues (1 992 lignes, 45 = 45, 0,13 Mo contre 0,76 Mo, 688
+ouvertures avec secteur, G = 143) et la liste de ce qui lui reste à écrire (README,
+`data/README.md`, rapport).
+
+**Effet de bord à connaître :** `enrich_naf.py` échoue tant que `naf_section` n'existe
+pas. `build.py` et `aggregate.py` continuent de tourner sur les Parquet existants.
+`data/quality_report.json` est laissé en place : c'est la cible à reproduire.
+
+**Historique du rendu :** 8 commits, aucun fichier retiré n'y apparaît
+(`git log --all --name-only` vérifié vide pour quality/verify/measure/PIPELINE/rapport.html).
