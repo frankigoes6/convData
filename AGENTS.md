@@ -74,5 +74,5 @@ sont `+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU` (ed25519) et
 ## État au 2026-11-21
 
 Pipeline complet exécuté sur S3 et dans un pod Onyxia, preuves et rapport produits.
-Les deux dépôts sont **poussés** (`main` = `3a72e12` pour le rendu, `2c3f01c` ici).
+Les deux dépôts sont **poussés** sur `main` (rendu `3a72e12`, ici `6f6c94d`).
 Détail : `PIPELINE.md` §7-8.
