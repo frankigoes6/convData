@@ -1,4 +1,4 @@
-# WORKFLOW — procédure réellement suivie sur Onyxia
+# WORKFLOW : procédure réellement suivie sur Onyxia
 
 Tout ce qui a été fait, dans l'ordre, avec les sélecteurs et les échecs. Sert à rejouer
 ou à reprendre si une session est interrompue.
@@ -71,7 +71,8 @@ L'UI JupyterLab résiste (menus React non déclenchables, `Shift+Enter` sans eff
 
 ## 6. Rédiger le rapport
 
-`docs/rapport.html` + WeasyPrint (`uv pip install weasyprint`), rendu contrôlé avec
+`convData/rapport.html` + WeasyPrint (`uv pip install weasyprint`), PDF écrit dans
+`BigData_Braud_Bretonne_Vautrin/docs/`, rendu contrôlé avec
 `pdfinfo` (**3 pages**) et `pdftoppm` pour relire visuellement. Le README, lui, doit
 tenir **une page** : vérifier en le rendant en PDF, pas à l'estimation.
 

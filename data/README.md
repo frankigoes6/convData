@@ -1,8 +1,8 @@
-# Dataset brut — BODACC Île-de-France 2022-2025
+# Dataset brut : BODACC Île-de-France 2022-2025
 
-Fichier de données brutes extrait de l'API **BODACC — Annonces commerciales**
+Fichier de données brutes extrait de l'API **BODACC, Annonces commerciales**
 (DILA, publiée sur data.gouv.fr), filtré puis échantillonné pour tenir dans la
-fourchette de taille imposée par le projet (1–5 Mo).
+fourchette de taille imposée par le projet (1 à 5 Mo).
 
 ## Fichiers
 
@@ -20,7 +20,7 @@ fourchette de taille imposée par le projet (1–5 Mo).
 | **Annonces** | **1 992** |
 | **Période** | 2022-01-02 → 2025-12-31 |
 | **SHA-256** | `5266b50adfec0161ae8ae2b777674e15ac5b3f980086044d6ea380ac15987a10` |
-| **Source** | BODACC — Annonces commerciales (DILA) |
+| **Source** | BODACC, annonces commerciales (DILA) |
 | **API** | `https://bodacc-datadila.opendatasoft.com/api/explore/v2.1/catalog/datasets/annonces-commerciales/exports/json` |
 | **Licence** | Licence Ouverte / Open Licence Etalab 2.0 |
 

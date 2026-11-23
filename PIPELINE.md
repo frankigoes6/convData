@@ -1,4 +1,4 @@
-# Pipeline BODACC — ce qui a été construit et comment le rejouer
+# Pipeline BODACC : ce qui a été construit et comment le rejouer
 
 Document de travail pour les agents IA. Le rendu évalué est le dépôt
 `BigData_Braud_Bretonne_Vautrin` ; ce fichier explique la chaîne, les chiffres
@@ -29,7 +29,7 @@ uv pip install -r requirements.txt   # duckdb, pandas, pyarrow, boto3, requests
 ```
 
 Pour le rapport uniquement : `uv pip install weasyprint pypdf`, puis
-`weasyprint docs/rapport.html docs/rapport.pdf`.
+`weasyprint rapport.html ../BigData_Braud_Bretonne_Vautrin/docs/rapport.pdf`.
 
 ## 3. Étapes et sorties attendues
 

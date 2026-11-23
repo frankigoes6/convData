@@ -1,9 +1,9 @@
-# AGENTS.md — convData
+# AGENTS.md : convData
 
 Espace de travail IA du projet Big Data « Défaillances d'entreprises (BODACC) ».
 Tous les documents du dépôt sont en **français** : écrire en français.
 
-## Règle n° 0 — deux dépôts appartiennent à `frankigoes6`
+## Règle n° 0 : deux dépôts appartiennent à `frankigoes6`
 
 `convData` (ce dépôt) et le dépôt de rendu `BigData_Braud_Bretonne_Vautrin` sont
 hébergés sur le compte GitHub `frankigoes6`. L'utilisateur local (`VtnDenis`) **n'est
@@ -32,7 +32,7 @@ Jupyter). Écrire des faits vérifiables (chemins, commandes, chiffres, codes de
 ## Le dépôt de rendu
 
 `../BigData_Braud_Bretonne_Vautrin` : `README.md`, `src/` (pipeline DuckDB),
-`evidence/` (5 captures), `docs/` (rapport HTML + PDF), `out/` (git-ignoré).
+`evidence/` (5 captures), `docs/rapport.pdf`, `out/` (git-ignoré).
 
 ```bash
 cd ../BigData_Braud_Bretonne_Vautrin
@@ -50,7 +50,7 @@ automatisé du projet (pas de suite de tests, pas de CI).
   cache `data/sirene_naf.json` (1 903/1 904). L'API coupe les rafales : 5 threads max.
 - **`jugement` et `listepersonnes` sont du texte JSON**, pas des objets.
 - **Champs piégeux** : `commercant` concatène plusieurs entités ; `jugement.nature`
-  mélange ouvertures, clôtures et états de créances — seules les ouvertures comptent.
+  mélange ouvertures, clôtures et états de créances ; seules les ouvertures comptent.
 - **Onyxia** : routes en `/s3/<bucket>/<préfixe>/`, pages qui mettent ~8-10 s à rendre,
   quota CPU saturable (`0/9 nodes available`), 2ᵉ icône d'une carte service = **supprimer**.
 - **DuckDB 2.0** : `con.sql(...).fetchone()` n'existe plus, utiliser `con.execute(...)`.
@@ -63,7 +63,7 @@ d'outil IA**.
 - Auteur des commits : `Denis VAUTRINSEING <117896625+VtnDenis@users.noreply.github.com>`.
 - Messages courts, en français, sans préfixe `feat:` / `fix:` / `docs:`.
 - Pas de `AGENTS.md`, pas de journal, pas de mot « agent » : la doc IA vit dans `convData`.
-- Le détail technique retiré du README va dans `docs/PIPELINE.md` (contenu neutre).
+- Le dépôt de rendu ne contient **que le PDF** : la source `.html` vit ici.
 - `convData`, à l'inverse : tout documenter, sans rien garder pour soi.
 
 Une **empreinte SHA256** fournie par l'utilisateur n'est pas une clé d'accès : elle

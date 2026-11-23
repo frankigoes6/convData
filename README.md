@@ -133,14 +133,14 @@ Chaque capture doit montrer **namespace/ID Onyxia + date + heure**, et être num
 | 2-3 déc | Rapport PDF, relecture |
 | **4 déc** | **Envoi (avec marge de sécurité : -1 pt par jour de retard)** |
 
-## 12. Stockage S3 — état et mise en place pour Bretonne et Vautrin
+## 12. Stockage S3 : état et mise en place pour Bretonne et Vautrin
 
 **Bucket de référence : `user-f-braud-ece`** (bucket personnel Onyxia de Braud).
 
 ```text
 s3://user-f-braud-ece/
 ├── raw/
-│   └── bodacc_idf_2022_2025.json     # 4,49 Mo — 1 992 annonces (brut)
+│   └── bodacc_idf_2022_2025.json     # 4,49 Mo, 1 992 annonces (brut)
 └── processed/
     └── bodacc/                       # à créer : clean/ et agg/
 ```
@@ -184,13 +184,13 @@ s3://user-f-braud-ece/
    ```
 3. **Envoyer les données** :
 
-   *Option 1 — bucket partagé (clés de Braud) :*
+   *Option 1, bucket partagé (clés de Braud) :*
    ```bash
    aws s3 cp data/bodacc_idf_2022_2025.json \
      "s3://user-f-braud-ece/raw/" --endpoint-url "$S3_ENDPOINT"
    ```
 
-   *Option 2 — bucket personnel :*
+   *Option 2, bucket personnel :*
    ```bash
    BUCKET="<son-bucket>"
    aws s3 mb "s3://$BUCKET" --endpoint-url "$S3_ENDPOINT"

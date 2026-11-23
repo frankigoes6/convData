@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rapport, défaillances d'entreprises en Île-de-France, BODACC 2022 à 2025</title>
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 15mm 14mm 15mm;
+    @bottom-center { content: counter(page) " / " counter(pages); font-size: 8pt; color: #888; }
+  }
+  body { font-family: "DejaVu Serif", Georgia, serif; font-size: 9.4pt; line-height: 1.38; color: #111; }
+  h1 { font-family: "DejaVu Sans", sans-serif; font-size: 13.5pt; margin: 0 0 2mm 0; line-height: 1.2; }
+  .sub { font-family: "DejaVu Sans", sans-serif; font-size: 8.3pt; color: #555; margin-bottom: 5mm; }
+  h2 { font-family: "DejaVu Sans", sans-serif; font-size: 10pt; margin: 5mm 0 1.5mm 0; }
+  p { margin: 0 0 2mm 0; text-align: justify; }
+  ul { margin: 0 0 2mm 0; padding-left: 5mm; }
+  li { margin-bottom: 0.8mm; }
+  table { border-collapse: collapse; width: 100%; font-size: 8.2pt; margin: 2mm 0 3mm 0;
+          font-family: "DejaVu Sans", sans-serif; }
+  th, td { border-bottom: 0.4pt solid #ddd; padding: 1mm 1.2mm; text-align: left; }
+  th { border-bottom: 0.8pt solid #999; font-weight: bold; }
+  .num { text-align: right; }
+  code { font-family: "DejaVu Sans Mono", monospace; font-size: 8pt; }
+  .fig { text-align: center; margin: 2mm 0 1mm 0; }
+  .fig img { width: 95mm; border: 0.4pt solid #ccc; }
+  .cap { font-size: 7.6pt; color: #555; margin-top: 1mm; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>Défaillances d'entreprises en Île-de-France : où, quels secteurs, quelle saisonnalité ?</h1>
+<div class="sub">
+BRAUD Frank, BRETONNE Mathis, VAUTRIN Denis<br>
+Écosystème Big Data II, 4 décembre 2026<br>
+Dépôt : github.com/frankigoes6/BigData_Braud_Bretonne_Vautrin
+</div>
+
+<h2>1. Question et données</h2>
+<p>
+On cherche à savoir quels départements d'Île-de-France et quels secteurs concentrent les
+ouvertures de procédures collectives entre 2022 et 2025. On regarde aussi si les mois se
+ressemblent et si certains secteurs finissent plus souvent en liquidation que d'autres.
+</p>
+<p>
+Les données viennent du BODACC, l'API publique des annonces commerciales de la DILA
+(data.gouv.fr, licence Etalab 2.0). Le fichier a été téléchargé le 19 novembre 2026 et
+pèse 4,49 Mo, soit 1 992 annonces de 32 champs. Il couvre les huit départements
+franciliens du 1er janvier 2022 au 31 décembre 2025, avec les avis initiaux des familles
+<code>collective</code>, <code>vente</code> et <code>conciliation</code>.
+</p>
+<p>
+Le filtre complet représente 171 755 annonces, environ 360 Mo, ce qui dépasse la limite
+de 5 Mo du projet. On a donc gardé un enregistrement sur vingt en suivant l'ordre
+chronologique, puis tiré 1 992 lignes régulièrement réparties sur la période. Les chiffres
+qui suivent décrivent cet échantillon. Ils ne valent pas pour toute l'Île-de-France.
+</p>
+<p>
+Le BODACC ne contient pas de code d'activité. Pour obtenir un secteur, on a joint le
+fichier à l'API SIRENE de l'État par le SIREN de chaque entreprise. 1 903 des 1 904 SIREN
+ont été retrouvés, et 688 des 703 ouvertures ont un secteur exploitable.
+</p>
+
+<h2>2. Comment tourne le pipeline</h2>
+<div class="fig">
+<svg width="520" height="112" viewBox="0 0 520 112" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
+  <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+    <path d="M0,0 L7,3.5 L0,7 z" fill="#444"/></marker></defs>
+  <g font-family="DejaVu Sans" font-size="7.6" text-anchor="middle">
+    <rect x="2" y="24" width="88" height="40" rx="3" fill="#fff" stroke="#555"/>
+    <text x="46" y="40">S3</text><text x="46" y="52">raw/bodacc/</text><text x="46" y="61">4,49 Mo</text>
+    <rect x="108" y="24" width="88" height="40" rx="3" fill="#f7f7f7" stroke="#999"/>
+    <text x="152" y="40">quality.py</text><text x="152" y="52">mesures de</text><text x="152" y="61">qualité</text>
+    <rect x="214" y="24" width="88" height="40" rx="3" fill="#f7f7f7" stroke="#999"/>
+    <text x="258" y="40">build.py</text><text x="258" y="52">aplatir,</text><text x="258" y="61">dédoublonner</text>
+    <rect x="320" y="24" width="88" height="40" rx="3" fill="#f7f7f7" stroke="#999"/>
+    <text x="364" y="40">enrich_naf.py</text><text x="364" y="52">SIREN vers</text><text x="364" y="61">code NAF</text>
+    <rect x="426" y="24" width="90" height="40" rx="3" fill="#f7f7f7" stroke="#999"/>
+    <text x="471" y="40">aggregate.py</text><text x="471" y="52">3 tables</text><text x="471" y="61">Parquet</text>
+    <line x1="90" y1="44" x2="106" y2="44" stroke="#444" marker-end="url(#a)"/>
+    <line x1="196" y1="44" x2="212" y2="44" stroke="#444" marker-end="url(#a)"/>
+    <line x1="302" y1="44" x2="318" y2="44" stroke="#444" marker-end="url(#a)"/>
+    <line x1="408" y1="44" x2="424" y2="44" stroke="#444" marker-end="url(#a)"/>
+    <rect x="426" y="78" width="90" height="30" rx="3" fill="#fff" stroke="#555"/>
+    <text x="471" y="92">S3 traité</text><text x="471" y="103">processed/</text>
+    <line x1="471" y1="64" x2="471" y2="76" stroke="#444" marker-end="url(#a)"/>
+    <rect x="108" y="78" width="300" height="30" rx="3" fill="#fafafa" stroke="#bbb" stroke-dasharray="3,2"/>
+    <text x="258" y="92">verify.py recalcule un résultat en Python pur</text>
+    <text x="258" y="103">measure.py compare CSV/Parquet et pandas/DuckDB</text>
+  </g>
+</svg>
+<div class="cap">Chaque étape lit et écrit sur S3. Le tout tourne dans un service Jupyter d'Onyxia.</div>
+</div>
+<p>
+On a pris DuckDB plutôt que Spark parce que 4,5 Mo tiennent en mémoire et qu'un seul
+binaire suffit pour le SQL, le Parquet et la lecture S3. Spark aurait demandé plusieurs
+minutes de démarrage pour un volume qui se traite en quelques secondes. Le format Parquet
+se justifie aussi par la mesure : 0,13 Mo contre 0,76 Mo en CSV, et 1,1 ms de lecture
+contre 39,2 ms. Sur le même group-by, DuckDB met 2,2 ms et pandas 9,5 ms.
+</p>
+<p>
+Deux pistes ont été écartées. Spark, pour la raison ci-dessus. Et une analyse sans
+secteur, qui aurait évité la jointure SIRENE mais vidé la moitié de la question. La
+jointure garde un cache dans le dépôt, donc la reproduction ne dépend pas de la
+disponibilité de l'API.
+</p>
+
+<h2>3. Ce qui n'allait pas dans les données</h2>
+<p>
+Les comptages viennent de <code>src/quality.py</code>, lancé sur le fichier brut avant
+toute correction. Ils sont dans <code>data/quality_report.json</code>.
+</p>
+<table>
+  <tr><th>Problème</th><th class="num">Annonces</th><th>Traitement</th></tr>
+  <tr><td>Champs imbriqués stockés en texte JSON</td><td class="num">1 992</td>
+      <td>parsing systématique, aucun JSON invalide sur 11 champs</td></tr>
+  <tr><td>Dates de parution hors format</td><td class="num">0</td>
+      <td>rien à corriger, les dates de jugement sont converties en date</td></tr>
+  <tr><td>SIREN absent ou mal formé</td><td class="num">70</td>
+      <td>neuf chiffres gardés après nettoyage, les 70 autres sortent de l'analyse sectorielle</td></tr>
+  <tr><td>Code NAF dans la source</td><td class="num">0</td>
+      <td>jointure SIRENE par SIREN</td></tr>
+  <tr><td>Doublons (même SIREN, même jour, même procédure)</td><td class="num">1</td>
+      <td>un enregistrement supprimé, il reste 1 991 lignes</td></tr>
+</table>
+<p>
+Le champ <code>commercant</code> pose un problème concret. Il colle plusieurs entreprises
+dans une seule chaîne, par exemple <code>"1985 DISTRIBUTION, PARAUNY, L'EXTRA-BRUT"</code>
+pour une annonce qui concerne deux sociétés. On ne peut donc pas s'en servir comme clé.
+Le SIREN a été récupéré dans <code>listepersonnes.personne.numeroImmatriculation</code>.
+</p>
+<p>
+Le champ <code>jugement</code> mélange des événements de nature très différente :
+ouverture de liquidation, clôture pour insuffisance d'actif, dépôt de l'état des
+créances. Si on compte toutes les lignes, on obtient 1 991 défaillances, soit presque
+trois fois le vrai chiffre. On a donc ramené les 15 libellés à 9 types et gardé seulement
+les ouvertures, c'est-à-dire liquidation, redressement, sauvegarde et conversion. Cela
+donne 703 annonces.
+</p>
+
+<h2>4. Résultats</h2>
+<p>
+Sur les 703 ouvertures, 505 sont des liquidations, 121 des redressements, 68 des
+conversions et 9 des sauvegardes. La répartition par année monte régulièrement : 109 en
+2022, 154 en 2023, 216 en 2024 et 224 en 2025.
+</p>
+<table>
+  <tr><th>Département</th><th class="num">Ouvertures</th><th>Section NAF la plus représentée</th><th class="num">Ouvertures</th><th class="num">Part de liquidations</th></tr>
+  <tr><td>75 Paris</td><td class="num">234</td><td>G Commerce</td><td class="num">143</td><td class="num">81,1 %</td></tr>
+  <tr><td>93 Seine-Saint-Denis</td><td class="num">102</td><td>F Construction</td><td class="num">129</td><td class="num">88,4 %</td></tr>
+  <tr><td>77 Seine-et-Marne</td><td class="num">94</td><td>I Hébergement et restauration</td><td class="num">83</td><td class="num">75,9 %</td></tr>
+  <tr><td>92 Hauts-de-Seine</td><td class="num">64</td><td>M Activités scientifiques</td><td class="num">63</td><td class="num">87,3 %</td></tr>
+  <tr><td>91 Essonne</td><td class="num">59</td><td>H Transports et entreposage</td><td class="num">52</td><td class="num">82,7 %</td></tr>
+  <tr><td>78 Yvelines</td><td class="num">58</td><td>N Services administratifs</td><td class="num">46</td><td class="num">89,1 %</td></tr>
+  <tr><td>94 Val-de-Marne</td><td class="num">53</td><td>J Information et communication</td><td class="num">39</td><td class="num">74,4 %</td></tr>
+  <tr><td>95 Val-d'Oise</td><td class="num">39</td><td>L Activités immobilières</td><td class="num">24</td><td class="num">58,3 %</td></tr>
+</table>
+<p>
+Paris pèse un tiers des ouvertures. Viennent ensuite la Seine-Saint-Denis et la
+Seine-et-Marne, devant les départements de l'ouest parisien. Le commerce et la
+construction sont les deux premiers secteurs, avec 272 ouvertures à eux deux sur 688.
+L'immobilier sort du lot autrement : 58,3 % de liquidations seulement, contre 75 à 89 %
+ailleurs.
+</p>
+<table>
+  <tr><th>Mois</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th>
+      <th class="num">7</th><th class="num">8</th><th class="num">9</th><th class="num">10</th><th class="num">11</th><th class="num">12</th></tr>
+  <tr><td>Ouvertures</td><td class="num">47</td><td class="num">66</td><td class="num">56</td><td class="num">58</td><td class="num">54</td><td class="num">66</td>
+      <td class="num">64</td><td class="num">25</td><td class="num">41</td><td class="num">83</td><td class="num">67</td><td class="num">76</td></tr>
+  <tr><td>Indice</td><td class="num">0,80</td><td class="num">1,13</td><td class="num">0,96</td><td class="num">0,99</td><td class="num">0,92</td><td class="num">1,13</td>
+      <td class="num">1,09</td><td class="num">0,43</td><td class="num">0,70</td><td class="num">1,42</td><td class="num">1,14</td><td class="num">1,30</td></tr>
+</table>
+<p>
+L'indice vaut le nombre d'ouvertures du mois divisé par la moyenne mensuelle. Août tombe
+à 0,43 et octobre monte à 1,42. On ne sait pas trancher entre un effet économique et un
+effet de calendrier judiciaire : en août, les greffes tournent au ralenti, et on n'a pas
+les dates d'audience pour corriger.
+</p>
+<p>
+Pour contrôler un résultat, <code>src/verify.py</code> recompte les ouvertures de Paris
+en 2023 sans DuckDB, en Python pur, à partir du fichier brut. Il trouve 45. Le pipeline
+trouve 45. Le premier essai donnait 17 d'un côté et 45 de l'autre, parce que le script
+comptait les lignes agrégées au lieu de sommer les compteurs. C'est la vérification qui a
+révélé l'erreur.
+</p>
+
+<h2>5. Limites</h2>
+<ul>
+  <li>Les résultats portent sur 1 992 annonces sur 171 755. Les rangs tiennent, mais un
+  département à faible effectif, comme le Val-d'Oise avec 39 ouvertures, se juge à
+  quelques unités près.</li>
+  <li>La conciliation ne compte qu'une annonce dans l'échantillon, pour 214 dans la
+  population. On ne peut rien en dire.</li>
+  <li>Le NAF vient de la situation actuelle de l'entreprise dans SIRENE, pas de celle
+  qu'elle avait au moment du jugement. Une société qui a changé d'activité est mal
+  classée.</li>
+  <li>On mesure des volumes, pas des risques. Sans le nombre d'entreprises par secteur et
+  par département, impossible de calculer un taux de défaillance.</li>
+  <li>Le creux d'août n'est pas corrigé des jours ouvrés, et le pic d'octobre n'est pas
+  expliqué.</li>
+</ul>
+
+<h2>6. Avec un jeu de données cent fois plus gros</h2>
+<p>
+À 450 Mo et environ 200 000 annonces, le code tournerait encore sur une machine, mais
+mal. L'aplatissement en Python chargerait tout en mémoire, et les 200 000 appels HTTP à
+SIRENE deviendraient le goulot. Il faudrait trois changements. Écrire le Parquet
+partitionné par année et par département, pour que les agrégats ne lisent que le
+nécessaire. Passer à Spark avec un découpage par mois, parce qu'une clé comme le SIREN
+est très déséquilibrée et provoquerait du skew. Charger le fichier SIRENE complet une
+fois sur S3 au lieu d'interroger l'API. Le partitionnement par département ne suffirait
+pas : Paris représente un tiers des lignes, il faudrait ajouter le mois.
+</p>
+
+<h2>7. Preuves</h2>
+<p>
+Les captures sont dans <code>evidence/</code>. On y voit le namespace et l'horodatage.
+Le dossier <code>k8s/</code> est vide, parce qu'aucun manifeste de notre côté n'a été
+nécessaire : le service Jupyter est déployé par la plateforme depuis son catalogue.
+</p>
+<table>
+  <tr><th>Fichier</th><th>Contenu</th></tr>
+  <tr><td><code>02_bucket_raw_vautrin.jpeg</code></td><td><code>raw/bodacc/</code> : le JSON de 4,49 Mo, le manifeste et la fiche du dataset</td></tr>
+  <tr><td><code>03_bucket_processed.jpeg</code></td><td><code>processed/bodacc/</code> : clean, naf, agg</td></tr>
+  <tr><td><code>04_bucket_agg.jpeg</code></td><td>les trois tables Parquet finales et leurs tailles</td></tr>
+  <tr><td><code>05_execution_cluster.jpeg</code></td><td>exécution dans le pod <code>jupyter-python-631654-0</code> : date, hôte, namespace, version de DuckDB, les cinq étapes, et la ligne « OK : résultats identiques »</td></tr>
+</table>
+<div class="fig">
+  <img src="../BigData_Braud_Bretonne_Vautrin/evidence/05_execution_cluster.jpeg" alt="Sortie du pipeline dans le pod Onyxia">
+  <div class="cap">Sortie réelle du pipeline dans le pod. La première cellule affiche le namespace
+  <code>user-d-vautrinseing-ece</code> et la date.</div>
+</div>
+
+<h2>8. Ce qu'on a ajouté en plus</h2>
+<ul>
+  <li>La jointure NAF, absente de la source, avec un cache qui permet de reprendre un
+  import interrompu.</li>
+  <li>Un script de vérification qui sort en erreur si les deux méthodes divergent.</li>
+  <li>Des mesures de taille et de temps rejouables en une commande.</li>
+  <li>Un envoi vers S3 qui utilise les identifiants temporaires du service, sans clé
+  écrite dans le code.</li>
+</ul>
+
+</body>
+</html>
