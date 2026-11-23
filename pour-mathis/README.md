@@ -44,7 +44,9 @@ Contrôle : après avoir relancé `enrich_naf.py` puis `aggregate.py`, tu dois r
 
 ## 3. La documentation
 
-Le dépôt n'a plus de `README.md` ni de `data/README.md`. C'est à toi de les écrire.
+Le dépôt garde `README.md` et `data/README.md` dans la version de Frank. Tu peux les
+compléter (la partie pipeline et les commandes manquent), mais ne les réécris pas de
+zéro et ne supprime pas son contenu.
 
 Le `README.md` doit tenir sur une page et suivre cet ordre : auteurs, prérequis, dataset
 (nom, URL, licence, date de téléchargement, taille), problématique en trois phrases,

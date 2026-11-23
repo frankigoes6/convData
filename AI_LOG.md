@@ -335,3 +335,23 @@ Mathis avant l'envoi, ce qui était prévu de toute façon.
 **État du dépôt :** `src/` sans quality/verify/measure ni `naf_section`, `data/` avec le
 brut, le manifeste et le cache NAF, `evidence/` complet, `k8s/` vide, plus de
 documentation.
+
+## 2026-11-23 12:00 : DeepSeek V4.1 Flash (OpenCode)
+
+**Rollback demandé par l'utilisateur.** La réécriture de l'historique depuis le premier
+commit avait changé les empreintes des commits de Frank : retour à `e36bc52`, puis
+reconstruction en ne touchant qu'aux commits de Denis.
+
+**Règle retenue :** les commits de Frank (`9797f5b`, `ede8e69`, `fd8e4c5`, `cb72ceb`,
+`4fc2d54`) restent intacts, avec leurs README d'origine. On ne réécrit que ce qui est
+au-dessus.
+
+**État final du rendu** (`8a99a7b`, 9 commits, aucun force push sur l'historique de Frank) :
+- `README.md` et `data/README.md` : versions de Frank, non modifiées
+- `src/` : common, build, enrich_naf, aggregate, upload_s3 (+ fetch_bodacc de Frank)
+- `data/` : brut, manifeste, cache `sirene_naf.json`
+- `evidence/` : 5 captures
+- plus de `docs/`, plus de quality/verify/measure, plus de `naf_section`
+
+**Pour Mathis :** il complète les README (sans les réécrire), écrit le rapport PDF et les
+quatre morceaux de code listés dans `pour-mathis/`.
