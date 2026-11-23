@@ -73,5 +73,6 @@ sont `+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU` (ed25519) et
 
 ## État au 2026-11-21
 
-Pipeline complet exécuté sur S3 et dans un pod Onyxia, preuves et rapport produits,
-9 commits locaux non poussés. Détail et reste à faire : `PIPELINE.md` §7-8.
+Pipeline complet exécuté sur S3 et dans un pod Onyxia, preuves et rapport produits.
+Les deux dépôts sont **poussés** (`main` = `3a72e12` pour le rendu, `2c3f01c` ici).
+Détail : `PIPELINE.md` §7-8.

@@ -255,3 +255,20 @@ python src/upload_s3.py --processed
 ### À faire ensuite
 - [ ] `git push` des deux dépôts dès les droits obtenus
 - [ ] Supprimer la branche `sauvegarde-avant-reword` une fois le push confirmé
+
+## 2026-11-23 09:00 — DeepSeek V4.1 Flash (OpenCode)
+
+**Push effectué.** Une clé privée a été fournie par l'utilisateur (`~/Downloads/id_ed25519`),
+déplacée en `~/.ssh/id_ed25519_bigdata` (chmod 600) et déclarée dans `~/.ssh/config`.
+Elle correspond à `frankigoes6@github` (`SHA256:+MKVGYA…`), donc à **son compte**, pas à la
+deploy key `bigdata-project` (`SHA256:TUAig…`) ajoutée avant.
+
+- Rendu : `4fc2d54..3a72e12` poussé sur `main` (remote passé en SSH).
+- `convData` : `62b1e64..2c3f01c` poussé sur `main`.
+- Branche locale `sauvegarde-avant-reword` supprimée après vérification.
+- Vérifié : `git ls-remote` renvoie les mêmes SHA que `HEAD`, `docs/rapport.pdf` est bien
+  dans l'arborescence distante.
+
+**Point de sécurité :** la clé privée donne l'accès complet au compte GitHub de Frank
+(aucune limitation de périmètre). À faire révoquer/remplacer une fois le projet rendu, et
+à ne jamais committer.
