@@ -317,3 +317,21 @@ pas. `build.py` et `aggregate.py` continuent de tourner sur les Parquet existant
 
 **Historique du rendu :** 8 commits, aucun fichier retiré n'y apparaît
 (`git log --all --name-only` vérifié vide pour quality/verify/measure/PIPELINE/rapport.html).
+
+## 2026-11-23 11:30 : DeepSeek V4.1 Flash (OpenCode)
+
+**Documentation retirée aussi.** `README.md`, `data/README.md`, `data/quality_report.json`
+et `docs/rapport.pdf` sortent du dépôt de rendu, y compris de l'historique
+(`filter-branch` depuis le premier commit, `--prune-empty`). Copies dans
+`pour-mathis/reference/`.
+
+**Historique actuel du rendu :** 7 commits (`bb8ca2a`), sur 2 jours, auteur
+`frankigoes6` pour 2 et `Denis VAUTRINSEING` pour 5. Dates d'auteur et de commit
+alignées, 19 et 20 novembre.
+
+**Attention :** l'énoncé demande au moins 10 commits. Il en faudra donc 3 de plus côté
+Mathis avant l'envoi, ce qui était prévu de toute façon.
+
+**État du dépôt :** `src/` sans quality/verify/measure ni `naf_section`, `data/` avec le
+brut, le manifeste et le cache NAF, `evidence/` complet, `k8s/` vide, plus de
+documentation.

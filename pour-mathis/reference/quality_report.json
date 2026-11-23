@@ -1,0 +1,28 @@
+{
+  "lignes": 1992,
+  "colonnes": 32,
+  "identifiants_uniques": 1992,
+  "champs_imbriques_en_texte": 11,
+  "champs_imbriques_json_invalides": 0,
+  "dates_parution_invalides": 0,
+  "siren_absent_ou_mal_forme": 70,
+  "codes_naf_presents": 1,
+  "doublons_metier": 1,
+  "familles": {
+    "vente": 442,
+    "collective": 1549,
+    "conciliation": 1
+  },
+  "types_procedure": {
+    "sans_jugement": 442,
+    "sanction": 65,
+    "creances": 203,
+    "cloture": 450,
+    "redressement": 121,
+    "sauvegarde": 9,
+    "plan": 56,
+    "liquidation": 506,
+    "conversion_liquidation": 68,
+    "autre": 72
+  }
+}

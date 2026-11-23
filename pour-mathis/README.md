@@ -7,6 +7,12 @@ Le dépôt concerné est `../BigData_Braud_Bretonne_Vautrin`. Le pipeline foncti
 `build.py` produit le fichier propre, `aggregate.py` produit les trois tables. Ce qui
 manque, c'est ce qui est décrit ici.
 
+Deux dossiers :
+
+- `code/` : les versions de référence des scripts et de la fonction à réécrire.
+- `reference/` : le README du rendu, le README des données, le rapport PDF et le rapport
+  de qualité tels qu'ils étaient. À reprendre, pas à recopier tels quels.
+
 ## 1. Les trois scripts à écrire
 
 Les versions de référence sont dans `code/`. Elles marchent, mais tu n'es pas obligé de
