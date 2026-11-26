@@ -1,11 +1,11 @@
 # Pour Mathis
 
 Ce dossier contient ce qui a été retiré du dépôt de rendu, pour que tu puisses écrire
-ta part : quatre morceaux de code, plus la documentation et le rapport.
+ta part : cinq morceaux de code, plus la documentation et le rapport.
 
-Le dépôt concerné est `../BigData_Braud_Bretonne_Vautrin`. Le pipeline fonctionne déjà :
-`build.py` produit le fichier propre, `aggregate.py` produit les trois tables. Ce qui
-manque, c'est ce qui est décrit ici.
+Le dépôt concerné est `../BigData_Braud_Bretonne_Vautrin`. Le pipeline fonctionne
+jusqu'à `build.py`, qui produit le fichier propre. Ce qui manque, c'est ce qui est
+décrit ici.
 
 Deux dossiers :
 
@@ -13,7 +13,7 @@ Deux dossiers :
 - `reference/` : le README du rendu, le README des données, le rapport PDF et le rapport
   de qualité tels qu'ils étaient. À reprendre, pas à recopier tels quels.
 
-## 1. Les trois scripts à écrire
+## 1. Les quatre scripts à écrire
 
 Les versions de référence sont dans `code/`. Elles marchent, mais tu n'es pas obligé de
 les copier : tu peux écrire autrement, du moment que les sorties sont les mêmes. Ce qui
@@ -23,6 +23,7 @@ compte, ce sont les contrôles de la dernière colonne.
 |---|---|---|
 | `src/quality.py` | Compter ce qui ne va pas dans le fichier brut, sans rien corriger | doit écrire `data/quality_report.json` avec 1 992 lignes et les valeurs du tableau ci-dessous |
 | `src/verify.py` | Recompter les ouvertures de Paris en 2023 sans DuckDB, en Python pur | doit afficher 45 et 45, et sortir en code d'erreur sinon |
+| `src/aggregate.py` | Agréger `out/clean.parquet` et `out/naf.parquet` en trois tables : ouvertures par mois et département, par section NAF avec la part de liquidations, et indice de saisonnalité | Paris 234, Seine-Saint-Denis 102, Seine-et-Marne 94, `G Commerce` 143, `F Construction` 129 |
 | `src/measure.py` | Comparer CSV et Parquet, puis pandas et DuckDB | Parquet autour de 0,13 Mo contre 0,76 Mo en CSV, et une lecture beaucoup plus rapide |
 
 Valeurs attendues de `quality.py` : 1 992 lignes, 32 colonnes, 1 992 identifiants
@@ -85,7 +86,7 @@ Ils sont déjà vérifiés, ne pas les recalculer à la main.
 
 ## 6. Règles
 
-Ne modifie pas `build.py`, `aggregate.py`, ni le reste de `common.py` : le rapport et les
+Ne modifie pas `build.py` ni le reste de `common.py` : le rapport et les
 captures reposent sur leurs sorties. Si tu changes quelque chose là-dedans, il faut tout
 relancer et corriger les chiffres partout.
 

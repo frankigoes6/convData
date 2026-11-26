@@ -101,8 +101,8 @@ contre 39,2 ms. Sur le même group-by, DuckDB met 2,2 ms et pandas 9,5 ms.
 <p>
 Deux pistes ont été écartées. Spark, pour la raison ci-dessus. Et une analyse sans
 secteur, qui aurait évité la jointure SIRENE mais vidé la moitié de la question. La
-jointure garde un cache dans le dépôt, donc la reproduction ne dépend pas de la
-disponibilité de l'API.
+jointure garde un cache local (<code>data/sirene_naf.json</code>), régénéré au premier
+passage : seule la première exécution interroge l'API, les suivantes partent du cache.
 </p>
 
 <h2>3. Ce qui n'allait pas dans les données</h2>

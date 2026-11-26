@@ -53,11 +53,15 @@ git clone https://github.com/frankigoes6/BigData_Braud_Bretonne_Vautrin.git
 cd BigData_Braud_Bretonne_Vautrin
 pip install -r requirements.txt
 
-python src/build.py       # aplatissement         -> out/clean.parquet
-python src/enrich_naf.py  # SIREN -> NAF (cache)  -> out/naf.parquet
-python src/aggregate.py   # 3 tables analytiques  -> out/agg_*.parquet
+python src/quality.py     # contrôle du fichier brut -> data/quality_report.json
+python src/build.py       # aplatissement          -> out/clean.parquet
+python src/enrich_naf.py  # SIREN -> NAF (cache)    -> out/naf.parquet
+python src/aggregate.py   # 3 tables analytiques    -> out/agg_*.parquet
+python src/verify.py      # recalcul en Python pur : 45 = 45
 python src/upload_s3.py --processed   # dépôt sur S3 (identifiants Onyxia)
 ```
 
-Reprise après interruption : `enrich_naf.py` repart de `data/sirene_naf.json` ; les
-autres étapes réécrivent leurs sorties. Rapport : `docs/rapport.pdf`. Captures d'exécution : `evidence/`.
+Le cache NAF (`data/sirene_naf.json`) n'est pas versionné : `enrich_naf.py` le crée au
+premier passage (~1 900 appels à l'API SIRENE) puis le réutilise. Les autres étapes
+réécrivent leurs sorties. `python src/measure.py` compare CSV et Parquet. Captures
+d'exécution : `evidence/`.
