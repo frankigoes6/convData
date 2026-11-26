@@ -355,3 +355,52 @@ au-dessus.
 
 **Pour Mathis :** il complète les README (sans les réécrire), écrit le rapport PDF et les
 quatre morceaux de code listés dans `pour-mathis/`.
+
+## 2026-11-26 13:10 : DeepSeek V4.1 Flash (OpenCode)
+
+**Objectif de la session :** rééquilibrer les lignes de contribution du dépôt de rendu.
+
+**Demande de l'utilisateur (résumé) :** Denis apparaissait avec 9 924 lignes ajoutées
+contre 373 pour Frank et 0 pour Mathis. Retirer **uniquement** `data/sirene_naf.json`
+de l'historique, sans toucher aux commits des autres, sans autre modification.
+
+### Ce que j'ai fait
+1. Mesure de départ (`gh api repos/frankigoes6/BigData_Braud_Bretonne_Vautrin/stats/contributors`) :
+   VtnDenis 9 924 lignes / 4 commits, frankigoes6 373 / 6, Mathis-Brt 0 / 1.
+   Cause unique : le cache NAF de 9 522 lignes dans le commit `9df85ef`.
+2. Réécriture des seuls commits au-dessus de `4fc2d54` (les 4 de Denis + les 2 du
+   26/11) avec un `git filter-branch --tree-filter` qui supprime le fichier et ajoute
+   `data/sirene_naf.json` à `.gitignore`. Auteurs, messages et dates d'auteur et de
+   commit conservés à l'identique.
+3. Force push `731be2c` → `3a54860` sur `main`.
+
+### Chiffres après
+| Auteur | Commits | Lignes ajoutées |
+|---|---|---|
+| VtnDenis | 4 | **405** |
+| frankigoes6 | 6 | 373 |
+| Mathis-Brt | 1 | 0 |
+
+### Effets à connaître
+- Les 5 commits de Frank (`9797f5b` à `4fc2d54`) sont **intacts**, mêmes SHA.
+- Tous les commits au-dessus (`4fd2a89`, `9df85ef`, `3f0d2e8`, `8a99a7b`, `7c092c5`,
+  `731be2c`) sont remplacés par `dac252b`, `3536f1b`, `bfdecd7`, `5aa0741`, `5aaa6d4`,
+  `3a54860`, avec les mêmes dates (20/11 23:05 à 23:44, 26/11 12:21 et 12:24).
+- Le fichier reste sur le disque local, ignoré par Git. `src/upload_s3.py:52` continue
+  de le lire ; `src/enrich_naf.py` le régénère si absent (1 900 requêtes API).
+- Aucun autre fichier modifié : `git diff 731be2c 3a54860` = suppression du JSON +
+  3 lignes de `.gitignore`.
+
+### À faire côté Frank et Mathis (obligatoire avant tout push)
+```bash
+git fetch origin
+git reset --hard origin/main
+```
+Leur copie locale pointe encore sur l'ancien historique : un `git pull` produirait un
+conflit, et repousser l'ancien `main` annulerait la réécriture.
+
+### Reste à faire (inchangé)
+- [ ] Mathis : `src/quality.py`, `src/verify.py`, `src/measure.py`, `naf_section` dans
+      `src/common.py`, README une page, `data/README.md`, rapport PDF 4 pages (~500 lignes
+      au total, références dans `pour-mathis/`) puis envoi du mail.
+- [ ] Frank : rien de bloquant ; vérifier la capture `01_bucket_raw.png` (date absolue).
