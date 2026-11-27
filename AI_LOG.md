@@ -436,3 +436,19 @@ conflit, et repousser l'ancien `main` annulerait la réécriture.
       puis envoi du mail.
 - [ ] Frank : la capture `01_bucket_raw.png` est en fait la page GitHub « Collaborators »,
       pas un bucket ; à traiter par l'utilisateur, hors dépôt pour l'instant.
+
+## 2026-11-27 17:35 : DeepSeek V4.1 Flash (OpenCode)
+
+**Objectif de la session :** regrouper le plan de commits de Mathis en quatre étapes de
+taille équivalente.
+
+### Ce que j'ai fait
+- `pour-mathis/README.md` §6 : les huit commits prévus (un par livrable) sont regroupés
+  en quatre commits de 80 à 98 lignes, avec les fichiers et les lignes de chacun.
+- Regroupement retenu : qualité + `data/README.md` (80), agrégats (84), vérification +
+  NAF (93), mesures + README + rapport (98). Total ≈ 355 lignes ; le PDF, binaire,
+  ne compte pas dans les lignes.
+- Aucune modification du dépôt de rendu.
+
+### Reste à faire
+- [ ] Mathis : les quatre commits ci-dessus, puis envoi du mail.

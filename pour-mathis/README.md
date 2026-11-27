@@ -92,5 +92,15 @@ relancer et corriger les chiffres partout.
 
 Avant de pousser, lance `python src/verify.py` : il doit afficher deux fois 45.
 
-Pour les commits : ton nom, un message court en français, et un commit par étape plutôt
-qu'un seul gros à la fin.
+Pour les commits : ton nom, un message court en français, sans préfixe. Quatre commits
+de taille équivalente (80 à 98 lignes), plutôt qu'un seul gros à la fin :
+
+| # | Message de commit | Fichiers | Lignes |
+|---|---|---|---|
+| 1 | contrôle du fichier brut | `src/quality.py`, `data/README.md` | 78 + 2 = **80** |
+| 2 | agrégats analytiques | `src/aggregate.py` | **84** |
+| 3 | vérification et jointure NAF | `src/verify.py`, `naf_section` dans `src/common.py` | 55 + 38 = **93** |
+| 4 | mesures, documentation et rapport | `src/measure.py`, `README.md`, `docs/rapport.pdf` | 64 + 34 = **98** |
+
+Total : environ **355 lignes** ajoutées (le PDF est binaire, il ne compte pas dans les
+lignes mais fait bien partie du commit 4).
